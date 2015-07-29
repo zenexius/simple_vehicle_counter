@@ -9,5 +9,4 @@ tmp/
 
 .DS_Store
 
-config/*.xml
 dataset/test.avi
