@@ -10,4 +10,5 @@ tmp/
 .DS_Store
 
 dataset/test.avi
+dataset/flip.avi
 vehicle_counting_x86.pdb
