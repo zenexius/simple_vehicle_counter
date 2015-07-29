@@ -1,6 +1,11 @@
 tmp/
+
 *.exe
+
 *.sdf
+
 *.opensdf
+
 .DS_Store
-config/*
+
+config/*.xml

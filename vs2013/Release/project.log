@@ -1,0 +1,28 @@
+﻿Build started 7/29/2015 12:12:35 AM.
+     1>Project "C:\Users\yihong\Downloads\simple_vehicle_counting\vs2013\project.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../include /I../include/opencv /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ../Demo.cpp
+         Demo.cpp
+     1>c:\users\yihong\downloads\simple_vehicle_counting\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(211) : see declaration of 'fopen'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"../vehicle_counting_x86.exe" /INCREMENTAL:NO /NOLOGO "../lib/x86/vc12/*.lib" comctl32.lib VFW32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"../vehicle_counting_x86.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"../vehicle_counting_x86.lib" /MACHINE:X86 /SAFESEH Release\Demo.obj
+         Release\VehicleCouting.obj
+         Release\PBAS.obj
+         Release\PixelBasedAdaptiveSegmenter.obj
+         Release\BlobTracking.obj
+         Release\cvaux.obj
+         Release\cvblob.obj
+         Release\cvcolor.obj
+         Release\cvcontour.obj
+         Release\cvlabel.obj
+         Release\cvtrack.obj
+         Generating code
+     1>c:\users\yihong\downloads\simple_vehicle_counting\package_tracking\cvblob\cvlabel.cpp(361): warning C4715: 'cvLabel' : not all control paths return a value
+         Finished generating code
+         project.vcxproj -> C:\Users\yihong\Downloads\simple_vehicle_counting\vs2013\../vehicle_counting_x86.exe
+     1>Done Building Project "C:\Users\yihong\Downloads\simple_vehicle_counting\vs2013\project.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.79
