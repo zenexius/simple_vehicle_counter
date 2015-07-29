@@ -10,3 +10,4 @@ tmp/
 .DS_Store
 
 dataset/test.avi
+vehicle_counting_x86.pdb
