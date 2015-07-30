@@ -7,7 +7,7 @@ Simple Vehicle Detection, Tracking, and Counter
 3. Then, to count the vehicles, check if the **centroid** of the moving objects have crossed a static line in the video.
 
 ##Features
-* Basic setup includes setting an `in` and and `out` line. The `in` (red) line divides states `A` and `B`, while the `out` (green) line divides states `C` and `D`.
+* Basic setup includes setting two different lines. The red line divides states `A` and `B`, while the green line divides states `C` and `D`.
 
 ##Additional information:
 * There is a Visual Studio 2013 template project in the `vs2013/` folder. Open it in the Visual Studio IDE and select [Release]-[Win32] mode.
