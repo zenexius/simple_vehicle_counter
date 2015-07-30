@@ -14,66 +14,53 @@ namespace FAV1
   int roi_y3 = 0;
   int numOfRec = 0;
   int startDraw = 0;
+  int drawSecond = 0;
   bool roi_defined = false;
   bool use_roi = true;
-  void set_in(int evt, int x, int y, int flag, void* param)
+  void set_lines(int evt, int x, int y, int flag, void* param)
   {
     if(!use_roi)
       return;
   
     if(evt == CV_EVENT_LBUTTONDOWN)
     {
-      if(!startDraw)
+      if(!startDraw && !drawSecond)
       {
         roi_x0 = x;
         roi_y0 = y;
         startDraw = 1;
       }
-      else
+	  else if(!drawSecond)
       {
         roi_x1 = x;
         roi_y1 = y;
         startDraw = 0;
+		drawSecond = 1;
       }
+	  else if (!startDraw && drawSecond)
+	  {
+		roi_x2 = x;
+		roi_y2 = y;
+		startDraw = 1;
+	  }
+	  else
+	  {
+		roi_x3 = x;
+		roi_y3 = y;
+		startDraw = 0;
+		drawSecond = 0;
+		roi_defined = 1;
+	  }
     }
 
     if(evt == CV_EVENT_MOUSEMOVE && startDraw)
     {
       //redraw ROI selection
       img_input2 = cvCloneImage(img_input1);
-      cvLine(img_input2, cvPoint(roi_x0,roi_y0), cvPoint(x,y), CV_RGB(255,0,0));
-      cvShowImage("VehicleCouting", img_input2);
-      cvReleaseImage(&img_input2);
-    }
-  }
-
-  void set_out(int evt, int x, int y, int flag, void* param)
-  {
-    if(!use_roi)
-      return;
-  
-    if(evt == CV_EVENT_LBUTTONDOWN)
-    {
-      if(!startDraw)
-      {
-        roi_x2 = x;
-        roi_y2 = y;
-        startDraw = 1;
-      }
-      else
-      {
-        roi_x3 = x;
-        roi_y3 = y;
-        startDraw = 0;
-        roi_defined = true;
-      }
-    }
-
-    if(evt == CV_EVENT_MOUSEMOVE && startDraw)
-    {
-      //redraw ROI selection
-      img_input2 = cvCloneImage(img_input1);
-      cvLine(img_input2, cvPoint(roi_x2,roi_y2), cvPoint(x,y), CV_RGB(0,255,0));
+	  if(!drawSecond)
+		cvLine(img_input2, cvPoint(roi_x0,roi_y0), cvPoint(x,y), CV_RGB(255,0,0));
+	  else
+		cvLine(img_input2, cvPoint(roi_x2, roi_y2), cvPoint(x,y), CV_RGB(0,255,0));
       cvShowImage("VehicleCouting", img_input2);
       cvReleaseImage(&img_input2);
     }
@@ -134,13 +121,13 @@ VehiclePosition VehicleCouting::getVehiclePosition(const CvPoint2D64f centroid)
 
   if(LaneOrientation == LO_VERTICAL)
   {
-	if(centroid.y > (FAV1::roi_y0 + FAV1::roi_y1)/2 && centroid.x > std::min(FAV1::roi_x0, FAV1::roi_x1) && centroid.x < std::max(FAV1::roi_x0, FAV1::roi_x1))
+	if(centroid.y < (FAV1::roi_y0 + FAV1::roi_y1)/2 && centroid.x > std::min(FAV1::roi_x0, FAV1::roi_x1) && centroid.x < std::max(FAV1::roi_x0, FAV1::roi_x1))
     {
       cv::putText(img_input, "A", cv::Point(10,img_h/2), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255,255,255));
       vehiclePosition = VP_A;
     }
     
-	if(centroid.y < (FAV1::roi_y0 + FAV1::roi_y1)/2 && centroid.x > std::min(FAV1::roi_x0, FAV1::roi_x1) && centroid.x < std::max(FAV1::roi_x0, FAV1::roi_x1))
+	if(centroid.y > (FAV1::roi_y0 + FAV1::roi_y1)/2 && centroid.x > std::min(FAV1::roi_x0, FAV1::roi_x1) && centroid.x < std::max(FAV1::roi_x0, FAV1::roi_x1))
     {
       cv::putText(img_input, "B", cv::Point(10,img_h/2), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255,255,255));
       vehiclePosition = VP_B;
@@ -178,15 +165,11 @@ void VehicleCouting::process()
   {
     do
     {
-      cv::putText(img_input, "Set the 'in' line", cv::Point(10,15), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,0,255));
+      cv::putText(img_input, "Set the lines", cv::Point(10,15), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0,0,255));
       cv::imshow("VehicleCouting", img_input);
       FAV1::img_input1 = new IplImage(img_input);
-      cvSetMouseCallback("VehicleCouting", FAV1::set_in, NULL);
+      cvSetMouseCallback("VehicleCouting", FAV1::set_lines, NULL);
       key = cvWaitKey(0);
-
-	  cv::putText(img_input, "Set the 'out' line", cv::Point(10, 15), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 255, 0));
-	  cvSetMouseCallback("VehicleCouting", FAV1::set_out, NULL);
-	  key = cvWaitKey(0);
 	  delete FAV1::img_input1;
 
       if(FAV1::roi_defined)
@@ -232,10 +215,10 @@ void VehicleCouting::process()
         cv::putText(img_input, "VERTICAL", cv::Point(10,15), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255,255,255));
       LaneOrientation = LO_VERTICAL;
 
-      cv::putText(img_input, "(A)", cv::Point(FAV1::roi_x0,FAV1::roi_y0+22), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255,255,255));
-      cv::putText(img_input, "(B)", cv::Point(FAV1::roi_x0,FAV1::roi_y0-12), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255,255,255));
-	  cv::putText(img_input, "(C)", cv::Point(FAV1::roi_x2,FAV1::roi_y2+22), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255,255,255));
-      cv::putText(img_input, "(D)", cv::Point(FAV1::roi_x2,FAV1::roi_y2-12), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255,255,255));
+      cv::putText(img_input, "(A)", cv::Point(FAV1::roi_x0,FAV1::roi_y0-12), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255,255,255));
+      cv::putText(img_input, "(B)", cv::Point(FAV1::roi_x0,FAV1::roi_y0+22), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255,255,255));
+	  cv::putText(img_input, "(C)", cv::Point(FAV1::roi_x2,FAV1::roi_y2-12), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255,255,255));
+      cv::putText(img_input, "(D)", cv::Point(FAV1::roi_x2,FAV1::roi_y2+22), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255,255,255));
     }
   }
 

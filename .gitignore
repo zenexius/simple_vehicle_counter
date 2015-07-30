@@ -9,6 +9,10 @@ tmp/
 
 .DS_Store
 
-dataset/test.avi
 dataset/flip.avi
+dataset/test.avi
+dataset/test1.avi
+dataset/test2.avi
+dataset/video1.avi
+dataset/video2.avi
 vehicle_counting_x86.pdb
