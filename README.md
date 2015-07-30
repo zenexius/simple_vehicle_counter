@@ -12,4 +12,4 @@ Simple Vehicle Detection, Tracking, and Counter
 ##Additional information:
 * There is a Visual Studio 2013 template project in the `vs2013/` folder. Open it in the Visual Studio IDE and select [Release]-[Win32] mode.
 * The include files for the OpenCV 2.4.10 are provided in the `include/` folder, and the related static libraries are provided in the `lib/x86/vc12/` folder.
-* The `dataset/video.avi` file will need to be re-encoded to RAW format for OpenCV.
+* The `dataset/video.avi` file will need to be re-encoded to RAW format for OpenCV. You can use [ffmpeg](https://www.ffmpeg.org) and run `ffmpeg -i video.avi -vcodec rawvideo video_raw.avi` to do this.
